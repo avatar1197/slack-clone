@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from "react"
-import {BrowserRouter as Router, Route, Routes, Link} from "react-router-dom"
-import axios from "axios"
-import {API_URL} from "./constants/Constants"
+import {
+	BrowserRouter as Router,
+	Route,
+	Routes,
+	Navigate,
+} from "react-router-dom"
 import Login from "./components/login/Login"
-import SignUp from "./components/signup/SignUp" // Assuming you have a SignUp component
+import SignUp from "./components/signup/SignUp"
 import Home from "./pages/home/Home"
-import {Button} from "@mui/material"
 
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -36,9 +38,16 @@ function App() {
 							path="/signup"
 							element={<SignUp setIsLoggedIn={setIsLoggedIn} />}
 						/>
+						<Route path="*" element={<Navigate replace to="/" />} />
 					</Routes>
 				) : (
-					<Home user={user} handleSignOut={handleSignOut} />
+					<Routes>
+						<Route
+							path="/"
+							element={<Home user={user} handleSignOut={handleSignOut} />}
+						/>
+						<Route path="*" element={<Navigate replace to="/" />} />
+					</Routes>
 				)}
 			</div>
 		</Router>

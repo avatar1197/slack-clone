@@ -30,7 +30,7 @@ function Login(props) {
 		event.preventDefault()
 
 		if (!email || !password) {
-			return alert("Invalid credentials")
+			return alert("Please enter both email and password")
 		}
 		try {
 			const loginCredentials = {
@@ -57,12 +57,14 @@ function Login(props) {
 					id: data.data.id,
 				})
 
-				setIsLoggedIn(true)
+				props.setIsLoggedIn(true) // Assuming you pass setIsLoggedIn as a prop from App.js
 			}
 		} catch (error) {
-			if (error.response.data.errors) {
-				return alert("Invalid Credentials")
-			}
+			console.error(
+				"Login failed:",
+				error.response ? error.response.data.errors : error
+			)
+			alert("Login failed. Please check your credentials.")
 		}
 	}
 
@@ -83,8 +85,8 @@ function Login(props) {
 		<div className="login">
 			<div className="login__container">
 				<img src={slackLogo} alt="Slack Logo" />
-				<h4>Sign in to Slack</h4>
-				<p>We suggest using the email address you use at work.</p>
+				<h1>Sign in to Slack</h1>
+				<p>We suggest using the email address you use at Avion.</p>
 				<Button
 					startIcon={<GoogleIcon className="google-btn" />}
 					variant="outlined"

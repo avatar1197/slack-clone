@@ -26,6 +26,7 @@
 
 p {
 	margin-bottom: 20px;
+	color: #7b7b7b;
 }
 
 .login__container > img {
@@ -67,7 +68,7 @@ h4 {
 }
 
 .submit-div > button {
-	margin-top: 50px;
+	margin-top: 10px;
 	text-transform: inherit !important;
 	background-color: #4a154b;
 	color: white;
