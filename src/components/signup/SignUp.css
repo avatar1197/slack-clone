@@ -1,0 +1,23 @@
+.signup {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: #f8f8f8;
+}
+
+.signup__container {
+	width: 400px;
+	padding: 40px; /* Increased padding for more space inside */
+	text-align: center;
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	margin: 10px; /* Margin around the container if needed */
+}
+
+.signup__container > img {
+	object-fit: contain;
+	height: 100px;
+	margin-bottom: 40px;
+}

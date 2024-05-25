@@ -25,6 +25,7 @@
 }
 
 p {
+	margin-top: 10px;
 	margin-bottom: 20px;
 	color: #7b7b7b;
 }
@@ -98,6 +99,20 @@ h4 {
 	border-radius: 50%;
 	border-top-color: #0a8d48;
 	animation: spin 1s ease-in-out infinite;
+}
+
+.signup-prompt {
+	margin-top: 20px;
+	font-size: 16px;
+}
+
+.signup-prompt a {
+	color: #0a4e8d;
+	text-decoration: none; /* Optional: removes underline */
+}
+
+.signup-prompt a:hover {
+	text-decoration: underline; /* Adds underline on hover for better user interaction */
 }
 
 @keyframes spin {

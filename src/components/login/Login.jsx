@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react"
+import {Link} from "react-router-dom"
 import {Button} from "@mui/material"
 import GoogleIcon from "@mui/icons-material/Google"
 import AppleIcon from "@mui/icons-material/Apple" // Assuming Apple Icon is available, if not use another method to import it
@@ -124,6 +125,9 @@ function Login(props) {
 						</Button>
 					</div>
 				</form>
+				<p className="signup-prompt">
+					New to Slack? <Link to="/signup">Create an account</Link>
+				</p>
 			</div>
 		</div>
 	)
