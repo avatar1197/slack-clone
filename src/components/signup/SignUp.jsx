@@ -1,8 +1,6 @@
 import {useState} from "react"
 import UserService from "../../services/UserService"
 import "./SignUp.css"
-import GoogleIcon from "@mui/icons-material/Google"
-import AppleIcon from "@mui/icons-material/Apple" // Assuming Apple Icon is available, if not use another method to import it
 import slackLogo from "../../assets/slacklogo.png"
 import {Link} from "react-router-dom"
 import {Button} from "@mui/material"
