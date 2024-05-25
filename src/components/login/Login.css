@@ -1,0 +1,106 @@
+.login {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: #f8f8f8;
+}
+
+.login__container {
+	width: 400px;
+	padding: 40px; /* Increased padding for more space inside */
+	text-align: center;
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	margin: 10px; /* Margin around the container if needed */
+}
+
+.login__container > button {
+	margin-top: 10px;
+	text-transform: inherit !important;
+	background-color: #ffffff;
+	color: rgb(6, 6, 6);
+	border: 1px solid #979797cd;
+}
+
+p {
+	margin-bottom: 20px;
+}
+
+.login__container > img {
+	object-fit: contain;
+	height: 100px;
+	margin-bottom: 40px;
+}
+
+h4 {
+	margin-bottom: 20px; /* Space below the header */
+}
+
+.login__input,
+.button {
+	width: 100%;
+	padding: 15px 10px;
+	margin-bottom: 20px; /* Increased margin for better spacing */
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.input-style {
+	width: 100%; /* Full width to fit the container */
+	padding: 12px 20px; /* Ample padding for comfortable typing */
+	margin: 8px 0; /* Margin for spacing between inputs */
+	display: block; /* Makes the input block level to fill the width of its parent */
+	border: 1px solid #ccc; /* Light grey border */
+	border-radius: 4px; /* Slightly rounded borders for a softer look */
+	box-sizing: border-box; /* Border-box model for easier dimension control */
+	font-size: 16px; /* Adequate font size for readability */
+	color: #333; /* Dark color for the text for better readability */
+}
+
+.input-style:focus {
+	border-color: #4a90e2; /* Highlight color on focus */
+	outline: none; /* Removes the default focus outline */
+	box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); /* Adds a subtle glow on focus */
+}
+
+.submit-div > button {
+	margin-top: 50px;
+	text-transform: inherit !important;
+	background-color: #4a154b;
+	color: white;
+}
+
+.button:hover {
+	background-color: #f1f1f1; /* Slightly darker on hover */
+	opacity: 1; /* Full opacity on hover */
+}
+
+.google-btn,
+.apple-btn {
+	margin-bottom: 0px;
+	margin-right: 8px; /* Margin between buttons */
+	color: #000000;
+}
+
+.login__or {
+	margin: 20px 0;
+}
+
+#loading {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border: 3px solid rgba(255, 255, 255, 0.6);
+	border-radius: 50%;
+	border-top-color: #0a8d48;
+	animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
