@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from "react"
 import "./Sidebar.css"
 import SidebarOption from "../sidebarOption/SidebarOption"
 import CreateIcon from "@mui/icons-material/Create"
@@ -10,8 +11,22 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import AddIcon from "@mui/icons-material/Add"
 
 function Sidebar() {
+	const [user, setUser] = useState({
+		displayName: "",
+	})
+
+	useEffect(() => {
+		// Fetch user data from local storage
+		const userData = JSON.parse(localStorage.getItem("user"))
+		if (userData && userData.uid) {
+			const displayName = userData.uid.split("@")[0] // Remove the domain part
+			setUser({
+				displayName: displayName.charAt(0).toUpperCase() + displayName.slice(1),
+			}) // Capitalize the first letter
+		}
+	}, [])
+
 	// Static data for display
-	const user = {displayName: "John Doe"}
 	const channels = [
 		{name: "General", guid: "general", type: "public"},
 		{name: "Tech Talk", guid: "tech_talk", type: "private"},
@@ -25,7 +40,7 @@ function Sidebar() {
 					<h2>Avion School</h2>
 					<h3>
 						<FiberManualRecordIcon />
-						{user.displayName.split(" ")[0]}
+						{user.displayName}
 					</h3>
 				</div>
 				<CreateIcon />
