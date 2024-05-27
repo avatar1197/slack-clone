@@ -45,20 +45,31 @@ function Login(props) {
 			)
 			const {data, headers} = response
 			if (data && headers) {
-				const accessToken = headers["access-token"]
-				const expiry = headers["expiry"]
-				const client = headers["client"]
-				const uid = headers["uid"]
-
-				setUser({
-					accessToken,
-					expiry,
-					client,
-					uid,
+				const userData = {
+					accessToken: headers["access-token"],
+					expiry: headers["expiry"],
+					client: headers["client"],
+					uid: headers["uid"],
 					id: data.data.id,
-				})
+				}
+				// Save user data to local storage before updating state
+				localStorage.setItem("user", JSON.stringify(userData))
+				setUser(userData) // Now update the state
 
-				props.setIsLoggedIn(true) // Assuming you pass setIsLoggedIn as a prop from App.js
+				props.setIsLoggedIn(true)
+				console.log("User logged in successfully: ", userData)
+				// const accessToken = headers["access-token"]
+				// const expiry = headers["expiry"]
+				// const client = headers["client"]
+				// const uid = headers["uid"]
+
+				// setUser({
+				// 	accessToken,
+				// 	expiry,
+				// 	client,
+				// 	uid,
+				// 	id: data.data.id,
+				// })
 			}
 		} catch (error) {
 			console.error(
