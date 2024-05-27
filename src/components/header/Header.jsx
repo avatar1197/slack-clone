@@ -1,28 +1,30 @@
-import "./Header.css"
 import React, {useState, useEffect} from "react"
 import Avatar from "@mui/material/Avatar"
 import AccessTimeIcon from "@mui/icons-material/AccessTime"
 import SearchIcon from "@mui/icons-material/Search"
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
+import "./Header.css"
 
 function Header() {
-	// Static user data for demonstration
 	const [user, setUser] = useState({
-		displayName: "John Doe",
-		avatarColor: "deepPurple[500]",
+		displayName: "",
+		avatarColor: "deepPurple[500]", // Default color if not set
 	})
 
 	useEffect(() => {
-		// Here you can simulate fetching data from local storage or a static source
-		// For now, we'll directly use the static data above
-		setUser({
-			displayName: "John Doe",
-			avatarColor: "deepPurple[500]",
-		})
+		const storedUser = localStorage.getItem("user")
+		if (storedUser) {
+			const userData = JSON.parse(storedUser)
+			setUser({
+				displayName: userData.uid.split("@")[0], // Use email before '@' as displayName
+				avatarColor: "deepPurple[500]", // Default color
+			})
+		}
 	}, [])
 
-	// Extracting the first letter of the displayName for the avatar
-	const avatarLetter = user.displayName ? user.displayName[0] : ""
+	const avatarLetter = user.displayName
+		? user.displayName[0].toUpperCase()
+		: "X"
 
 	return (
 		<div className="header">
