@@ -10,55 +10,75 @@ import SignUp from "./components/signup/SignUp"
 import Home from "./pages/home/Home"
 
 function App() {
-	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [user, setUser] = useState(() =>
 		JSON.parse(localStorage.getItem("user"))
 	)
+	const [isLoggedIn, setIsLoggedIn] = useState(!!user) // Derived directly from user existence
 
 	useEffect(() => {
-		if (user) {
-			setIsLoggedIn(true)
-			localStorage.setItem("user", JSON.stringify(user))
-		}
+		localStorage.setItem("user", JSON.stringify(user)) // Always sync user to localStorage
+		setIsLoggedIn(!!user) // Update login state based on user state
 	}, [user])
 
 	const handleSignOut = () => {
-		localStorage.removeItem("user")
-		setIsLoggedIn(false)
-		setUser(null)
+		setUser(null) // This will update the user state to null and trigger useEffect
+		localStorage.removeItem("user") // Ensure local storage is cleared
 	}
 
 	return (
 		<Router>
 			<div className="App">
-				{!isLoggedIn ? (
-					<Routes>
-						<Route
-							path="/"
-							element={
-								<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
-							}
-						/>
-						<Route
-							path="/signup"
-							element={
-								<SignUp setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
-							}
-						/>
-
-						<Route path="*" element={<Navigate replace to="/" />} />
-					</Routes>
-				) : (
-					<Routes>
-						<Route
-							path="/"
-							element={<Home user={user} handleSignOut={handleSignOut} />}
-						/>
-						<Route path="*" element={<Navigate replace to="/" />} />
-					</Routes>
-				)}
+				<Routes>
+					{!isLoggedIn ? (
+						<>
+							<Route
+								path="/"
+								element={
+									<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
+								}
+							/>
+							<Route
+								path="/signup"
+								element={
+									<SignUp setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
+								}
+							/>
+							<Route path="*" element={<Navigate replace to="/" />} />
+						</>
+					) : (
+						<>
+							<Route
+								path="/home"
+								element={<Home user={user} handleSignOut={handleSignOut} />}
+							/>
+							<Route path="*" element={<Navigate replace to="/home" />} />
+						</>
+					)}
+				</Routes>
 			</div>
 		</Router>
+		// <Router>
+		// 	<div className="App">
+		// 		<Routes>
+		// 			<Route
+		// 				path="/"
+		// 				element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />}
+		// 			/>
+		// 			<Route
+		// 				path="/signup"
+		// 				element={<SignUp setIsLoggedIn={setIsLoggedIn} setUser={setUser} />}
+		// 			/>
+		// 			<Route
+		// 				path="/home"
+		// 				element={<Home user={user} handleSignOut={handleSignOut} />}
+		// 			/>
+		// 			<Route
+		// 				path="*"
+		// 				element={<Navigate replace to={isLoggedIn ? "/home" : "/"} />}
+		// 			/>
+		// 		</Routes>
+		// 	</div>
+		// </Router>
 	)
 }
 

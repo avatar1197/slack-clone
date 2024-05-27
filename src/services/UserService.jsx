@@ -2,6 +2,37 @@ import {API_URL} from "../constants/Constants"
 import axios from "axios"
 
 const UserService = {
+	//object method for loging in
+	login: async function (credentials) {
+		if (!credentials.email || !credentials.password) {
+			alert("Please enter both email and password")
+			return null // Early return to stop the login process
+		}
+
+		try {
+			const response = await axios.post(`${API_URL}/auth/sign_in`, credentials)
+			const {data, headers} = response
+			if (data && headers) {
+				const userDetails = {
+					accessToken: headers["access-token"],
+					expiry: headers["expiry"],
+					client: headers["client"],
+					uid: headers["uid"],
+					id: data.data.id,
+				}
+				return userDetails
+			} else {
+				throw new Error("No data received") // Throw an error if no data is returned
+			}
+		} catch (error) {
+			console.error(
+				"Login failed:",
+				error.response ? error.response.data.errors : error
+			)
+			alert("Login failed. Please check your credentials.")
+			return null // Return null to indicate failure
+		}
+	},
 	// Object method for getting users
 	getUsers: async function (user) {
 		try {
@@ -23,19 +54,23 @@ const UserService = {
 
 	signUp: async function (info) {
 		if (info.password !== info.password_confirmation) {
-			return alert("Passwords don't match!")
+			alert("Passwords don't match!")
+			return Promise.reject("Passwords don't match") // Reject the promise here
 		}
 
 		try {
 			const response = await axios.post(`${API_URL}/auth/`, info)
-			const {data} = response
-			if (data.data) {
-				return alert("Account creation successful!")
-			}
+			// const {data} = response
+			return response.data // Return the whole response data
+			// if (data.data) {
+			// 	return alert("Account creation successful!")
+			// }
 		} catch (error) {
-			if (error.response.data.errors) {
-				return alert("Unable to create this account.")
-			}
+			alert(
+				"Unable to create this account: " +
+					(error.response?.data?.errors?.join(", ") || "Unknown Error")
+			)
+			return Promise.reject(error) // Reject the promise on error
 		}
 	},
 }
