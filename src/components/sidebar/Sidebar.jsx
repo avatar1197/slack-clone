@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import "./Sidebar.css"
 import SidebarOption from "../sidebarOption/SidebarOption"
+import LogoutHandler from "../logout/LogoutHandler"
 import CreateIcon from "@mui/icons-material/Create"
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord"
 import InsertCommentIcon from "@mui/icons-material/InsertComment"
@@ -9,28 +10,66 @@ import MoreVertIcon from "@mui/icons-material/MoreVert"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import AddIcon from "@mui/icons-material/Add"
+import {useNavigate} from "react-router-dom"
 
-function Sidebar() {
-	const [user, setUser] = useState({
+function Sidebar({handleLogout}) {
+	const navigate = useNavigate()
+
+	// const routeChange = () => {
+	// 	// let path = `/`
+	// 	// navigate(path)
+	// 	// setUser(null)
+	// 	// setUserDetails(null)
+	// 	localStorage.clear()
+	// 	console.log("Clearing user data and logging out...")
+
+	// 	localStorage.removeItem("user")
+	// 	setIsLoggedIn(false)
+	// }
+
+	// const handleClick = () => {
+	// 	navigate("/")
+	// 	console.log("Clearing user data and logging out...")
+	// 	setUser(null)
+	// 	setUserDetails(null)
+	// 	console.log("User data cleared")
+	// 	localStorage.clear()
+	// 	setIsLoggedIn(false)
+	// 	console.log("Navigating to login page...")
+	// }
+
+	const [userDetails, setUserDetails] = useState({
 		displayName: "",
 	})
 
 	useEffect(() => {
-		// Fetch user data from local storage
-		const userData = JSON.parse(localStorage.getItem("user"))
-		if (userData && userData.uid) {
-			const displayName = userData.uid.split("@")[0] // Remove the domain part
-			setUser({
+		const storedUserData = JSON.parse(localStorage.getItem("user"))
+		if (storedUserData && storedUserData.uid) {
+			const displayName = storedUserData.uid.split("@")[0]
+			setUserDetails({
 				displayName: displayName.charAt(0).toUpperCase() + displayName.slice(1),
-			}) // Capitalize the first letter
+			})
+		} else {
+			setUserDetails({displayName: ""}) // Ensure displayName is reset when user logs out
 		}
 	}, [])
 
-	// Static data for display
+	// const logout = () => {
+	// 	navigate("/", {replace: true})
+	// 	console.log("Clearing user data and logging out...")
+	// 	setUser(null)
+	// 	setUserDetails(null)
+	// 	console.log("User data cleared")
+	// 	localStorage.clear()
+	// 	setIsLoggedIn(false)
+	// 	console.log("Navigating to login page...")
+	// }
+
 	const channels = [
 		{name: "General", guid: "general", type: "public"},
 		{name: "Tech Talk", guid: "tech_talk", type: "private"},
 	]
+
 	const dms = [{name: "Jane Smith", uid: "jane_smith", status: "online"}]
 
 	return (
@@ -40,7 +79,7 @@ function Sidebar() {
 					<h2>Avion School</h2>
 					<h3>
 						<FiberManualRecordIcon />
-						{user.displayName}
+						{userDetails.displayName || "Guest"}
 					</h3>
 				</div>
 				<CreateIcon />
@@ -82,7 +121,9 @@ function Sidebar() {
 					/>
 				))}
 			</div>
-			<button className="sidebar__logout">Logout</button>
+			<button className="sidebar__logout" onClick={handleLogout}>
+				Logout
+			</button>
 		</div>
 	)
 }

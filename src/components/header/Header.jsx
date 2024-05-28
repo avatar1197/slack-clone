@@ -6,8 +6,8 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
 import "./Header.css"
 
 function Header() {
-	const [user, setUser] = useState({
-		displayName: "",
+	const [avatarUser, setAvatarUser] = useState({
+		displayName: "Guest",
 		avatarColor: "deepPurple[500]", // Default color if not set
 	})
 
@@ -15,16 +15,24 @@ function Header() {
 		const storedUser = localStorage.getItem("user")
 		if (storedUser) {
 			const userData = JSON.parse(storedUser)
-			setUser({
-				displayName: userData.uid.split("@")[0], // Use email before '@' as displayName
-				avatarColor: "deepPurple[500]", // Default color
+			if (userData && userData.uid) {
+				const displayName = userData.uid.split("@")[0] // Use email before '@' as displayName
+				setAvatarUser({
+					displayName:
+						displayName.charAt(0).toUpperCase() + displayName.slice(1), // Capitalize the first letter
+					avatarColor: "deepPurple[500]", // Default color
+				})
+			}
+		} else {
+			// Reset to default if no user data is found
+			setAvatarUser({
+				displayName: "Guest",
+				avatarColor: "deepPurple[500]",
 			})
 		}
 	}, [])
 
-	const avatarLetter = user.displayName
-		? user.displayName[0].toUpperCase()
-		: "X"
+	const avatarLetter = avatarUser.displayName ? avatarUser.displayName[0] : "X" // Use 'G' for Guest
 
 	return (
 		<div className="header">
@@ -37,7 +45,7 @@ function Header() {
 			</div>
 			<div className="header__right">
 				<HelpOutlineIcon />
-				<Avatar sx={{bgcolor: user.avatarColor}}>{avatarLetter}</Avatar>
+				<Avatar sx={{bgcolor: avatarUser.avatarColor}}>{avatarLetter}</Avatar>
 			</div>
 		</div>
 	)
