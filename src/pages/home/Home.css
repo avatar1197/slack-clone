@@ -1,4 +1,21 @@
-.home {
+.App-body {
+	display: flex; /* Establishes a flex container */
+	flex-direction: row; /* Aligns children (sidebar and main) in a row */
+	min-height: 100vh; /* Optional: Makes the body take at least the height of the viewport */
+	/* background-color: var(--slack-color); */
+	color: #fff; /* Ensures text color is white, adjust as necessary */
+}
+
+.home-main {
+	flex: 1; /* Takes up the rest of the space */
+	padding: 20px; /* Adds some padding around the content */
+	overflow-y: auto; /* Allows scrolling within the main content area if needed */
+}
+.home-main > p {
+	margin: 0; /* Removes margin from the paragraph if any */
+	color: black; /* Ensures the text color is black, adjust as necessary */
+}
+/* .home {
 	flex: 0.7;
 	flex-grow: 1;
 	height: 100vh;
@@ -41,4 +58,5 @@
 .home__container > p {
 	font-size: 18px;
 	line-height: 1.5;
-}
+	margin-left: 250px;
+} */

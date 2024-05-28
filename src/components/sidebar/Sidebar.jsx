@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react"
 import "./Sidebar.css"
 import SidebarOption from "../sidebarOption/SidebarOption"
-import LogoutHandler from "../logout/LogoutHandler"
 import CreateIcon from "@mui/icons-material/Create"
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord"
 import InsertCommentIcon from "@mui/icons-material/InsertComment"
@@ -10,34 +9,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import AddIcon from "@mui/icons-material/Add"
-import {useNavigate} from "react-router-dom"
 
-function Sidebar({handleLogout}) {
-	const navigate = useNavigate()
-
-	// const routeChange = () => {
-	// 	// let path = `/`
-	// 	// navigate(path)
-	// 	// setUser(null)
-	// 	// setUserDetails(null)
-	// 	localStorage.clear()
-	// 	console.log("Clearing user data and logging out...")
-
-	// 	localStorage.removeItem("user")
-	// 	setIsLoggedIn(false)
-	// }
-
-	// const handleClick = () => {
-	// 	navigate("/")
-	// 	console.log("Clearing user data and logging out...")
-	// 	setUser(null)
-	// 	setUserDetails(null)
-	// 	console.log("User data cleared")
-	// 	localStorage.clear()
-	// 	setIsLoggedIn(false)
-	// 	console.log("Navigating to login page...")
-	// }
-
+function Sidebar({handleLogout, children}) {
 	const [userDetails, setUserDetails] = useState({
 		displayName: "",
 	})
@@ -124,6 +97,7 @@ function Sidebar({handleLogout}) {
 			<button className="sidebar__logout" onClick={handleLogout}>
 				Logout
 			</button>
+			<main>{children}</main>
 		</div>
 	)
 }

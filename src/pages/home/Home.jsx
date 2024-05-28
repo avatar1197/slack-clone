@@ -4,20 +4,10 @@ import {useNavigate} from "react-router-dom"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Header from "../../components/header/Header"
 import "../../App.css"
+import "./Home.css"
 
 function Home({setIsLoggedIn, setUser}) {
 	const navigate = useNavigate()
-	// const [user, setUser] = useState(() =>
-	// 	JSON.parse(localStorage.getItem("user"))
-	// )
-	// const [isLoggedIn, setIsLoggedIn] = useState(!!user)
-
-	// useEffect(() => {
-	// 	localStorage.setItem("user", JSON.stringify(user))
-	// 	setIsLoggedIn(!!user)
-	// }, [user])
-
-	// Function to handle logout
 	const handleLogout = () => {
 		console.log("Logging out...")
 		localStorage.clear() // Clear all local storage data
@@ -35,7 +25,7 @@ function Home({setIsLoggedIn, setUser}) {
 					// setUser={setUser}
 					handleLogout={handleLogout}
 				/>
-				<main>
+				<main className="home-main">
 					<p>Welcome to your Slack clone!</p>
 				</main>
 			</div>
