@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Header from "../../components/header/Header"
 import SendMessage from "../../components/sendMessage/sendMessage"
+import MessageHistory from "../../components/messageHistory/messageHistory"
 import "../../App.css"
 import "./Home.css"
 
@@ -30,8 +31,13 @@ function Home({setIsLoggedIn, setUser}) {
 				/>
 				<main className="home-main">
 					<p>Welcome to your Slack clone!</p>
-					{/* Conditionally render SendMessage if user is available */}
-					{user && <SendMessage user={user} />}
+					{user && (
+						<>
+							<SendMessage user={user} />
+							<MessageHistory user={user} receiverId="5007" /> // Assuming
+							'5007' or replace dynamically as needed
+						</>
+					)}
 				</main>
 			</div>
 		</div>

@@ -1,0 +1,36 @@
+.message-history {
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	max-height: 500px;
+	overflow-y: auto;
+}
+
+.message {
+	margin: 10px;
+	padding: 10px;
+	border-radius: 10px;
+	color: white;
+	max-width: 70%;
+}
+
+.sent {
+	background-color: #007bff;
+	align-self: flex-end;
+}
+
+.received {
+	background-color: #17a2b8;
+	align-self: flex-start;
+}
+
+.message-info {
+	display: flex;
+	justify-content: space-between;
+	font-size: 0.8em;
+	opacity: 0.8;
+}
+
+.message-body {
+	margin-top: 5px;
+}
