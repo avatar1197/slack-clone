@@ -52,6 +52,46 @@ const UserService = {
 		}
 	},
 
+	//object method for sending message
+	sendMsg: async function (user, info) {
+		try {
+			const headers = {
+				"access-token": user.accessToken,
+				client: user.client,
+				expiry: user.expiry,
+				uid: user.uid,
+			}
+			const response = await axios.post(`${API_URL}/messages`, info, {headers})
+			const {data} = response
+			if (data.data) {
+				return alert("Successfully sent a message!")
+			} else {
+				return alert("Cannot send message!")
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	},
+
+	// Object method for getting messages
+	// getMessage : async function (user) {
+	// 	try {
+	// 		const headers = {
+	// 			"access-token": user.accessToken,
+	// 			expiry: user.expiry,
+	// 			client: user.client,
+	// 			uid: user.uid,
+	// 		}
+	// 		const response = await axios.get(`${API_URL}/messages?receiver_id=${}&receiver_class=User`, {headers})
+	// 		const users = response.data.data
+	// 		return users.filter((user) => user.id >= 4980)
+	// 	} catch (error) {
+	// 		if (error.response.data.errors) {
+	// 			return alert("Cannot get users")
+	// 		}
+	// 	}
+	// },
+
 	signUp: async function (info) {
 		if (info.password !== info.password_confirmation) {
 			alert("Passwords don't match!")
