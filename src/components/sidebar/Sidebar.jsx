@@ -12,6 +12,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import AddIcon from "@mui/icons-material/Add"
 import SendMessage from "../sendMessage/sendMessage"
 
+// import SendMessagetest from "../sendMessage/sendMessagetest"
+// import LoadUsers from "../loadUsers/LoadUsers"
+
 function Sidebar({handleLogout, onSelectDM}) {
 	//logged in user data
 	const user = JSON.parse(localStorage.getItem("user"))
@@ -31,6 +34,11 @@ function Sidebar({handleLogout, onSelectDM}) {
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => setOpen(true)
 	const handleClose = () => setOpen(false)
+
+	// const [selectedUserId, setSelectedUserId] = useState("")
+	// const handleSelectUser = (userId) => {
+	// 	setSelectedUserId(userId)
+	// }
 
 	//parsing loggedin user uid for the display name
 	useEffect(() => {
@@ -61,10 +69,6 @@ function Sidebar({handleLogout, onSelectDM}) {
 			return prevDms
 		})
 	}
-
-	// const handleSelectDM = (id) => {
-	// 	onSelectDM(id)
-	// }
 
 	//dummy channels
 	const channels = [
@@ -110,14 +114,21 @@ function Sidebar({handleLogout, onSelectDM}) {
 							variant="h6"
 							component="h2"
 						>
-							Send a Message
+							New Message
 						</Typography>
-
 						<SendMessage
 							user={user}
 							addReceiver={addReceiver}
 							handleClose={handleClose}
 						/>
+						{/* <LoadUsers
+							user={user}
+							selectedUserId={selectedUserId}
+							onSelectUser={handleSelectUser}
+						/>
+						{selectedUserId && (
+							<SendMessagetest user={user} receiverId={selectedUserId} />
+						)} */}
 					</Box>
 				</Modal>
 			</div>
