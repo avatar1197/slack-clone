@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import UserService from "../../services/UserService"
 
-function SendMessage({user, addReceiver}) {
+function SendMessage({user, addReceiver, handleClose}) {
 	const [receiver, setReceiver] = useState("")
 	const [message, setMessage] = useState("")
 	const [users, setUsers] = useState([])
@@ -22,7 +22,6 @@ function SendMessage({user, addReceiver}) {
 				setLoading(false)
 			}
 		}
-
 		fetchUsers()
 	}, [user])
 
@@ -40,6 +39,7 @@ function SendMessage({user, addReceiver}) {
 		try {
 			await UserService.sendMsg(user, info)
 			setMessage("") // Clear message input after sending
+			handleClose() //close the modal
 			const selectedReceiver = users.find((u) => u.id.toString() === receiver)
 			if (selectedReceiver) {
 				addReceiver({
@@ -59,33 +59,33 @@ function SendMessage({user, addReceiver}) {
 	if (error) return <div>Error fetching users. Please try again later.</div>
 
 	return (
-		<div className="sendMessage">
-			<form onSubmit={handleSubmit}>
-				<label>Send to:</label>
-				<select
-					className="input-style"
-					value={receiver}
-					onChange={(event) => setReceiver(event.target.value)}
-					required
-				>
-					<option value="">Select a user</option>
-					{users.map((user) => (
-						<option key={user.id} value={user.id}>
-							{user.email} (ID: {user.id})
-						</option>
-					))}
-				</select>
-				<label>Message:</label>
-				<input
-					type="text"
-					className="input-style"
-					value={message}
-					onChange={(event) => setMessage(event.target.value)}
-					required
-				></input>
-				<button type="submit">Send Message</button>
-			</form>
-		</div>
+		// <div className="sendMessage">
+		<form onSubmit={handleSubmit}>
+			<label>Send to:</label>
+			<select
+				className="input-style"
+				value={receiver}
+				onChange={(event) => setReceiver(event.target.value)}
+				required
+			>
+				<option value="">Select a user</option>
+				{users.map((user) => (
+					<option key={user.id} value={user.id}>
+						{user.email} (ID: {user.id})
+					</option>
+				))}
+			</select>
+			<label>Message:</label>
+			<input
+				type="text"
+				className="input-style"
+				value={message}
+				onChange={(event) => setMessage(event.target.value)}
+				required
+			></input>
+			<button type="submit">Send Message</button>
+		</form>
+		// </div>
 	)
 }
 

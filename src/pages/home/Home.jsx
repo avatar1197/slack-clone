@@ -63,14 +63,14 @@ function Home({setIsLoggedIn, setUser}) {
 				/>
 
 				<div className="main-content">
-					<SendMessage
+					{/* <SendMessage
 						user={user}
 						addReceiver={(receiver) => {
 							if (!dms.some((dm) => dm.id === receiver.id)) {
 								setDms([...dms, receiver])
 							}
 						}}
-					/>
+					/> */}
 					{selectedDM && <MessageHistory user={user} receiverId={selectedDM} />}
 				</div>
 			</div>
