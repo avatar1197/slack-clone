@@ -59,7 +59,7 @@ function Home({setIsLoggedIn, setUser}) {
 				<Sidebar
 					dms={dms}
 					onSelectDM={handleSelectDM}
-					handleLogout={() => {}}
+					handleLogout={handleLogout}
 				/>
 
 				<div className="main-content">
