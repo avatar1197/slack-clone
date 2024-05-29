@@ -15,6 +15,10 @@
 	margin: 0; /* Removes margin from the paragraph if any */
 	color: black; /* Ensures the text color is black, adjust as necessary */
 }
+
+/* .main-content {
+	margin-left: 500px;
+} */
 /* .home {
 	flex: 0.7;
 	flex-grow: 1;

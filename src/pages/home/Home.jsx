@@ -36,6 +36,11 @@ function Home({setIsLoggedIn, setUser}) {
 		localStorage.setItem("dms", JSON.stringify(dms))
 	}, [dms])
 
+	const handleSelectDM = (id) => {
+		console.log("DM selected:", id) // debug
+		setSelectedDM(id)
+	}
+
 	const handleAddReceiver = (newReceiver) => {
 		// Add new receiver if not already in list
 		if (!dms.some((dm) => dm.id === newReceiver.id)) {
@@ -51,20 +56,23 @@ function Home({setIsLoggedIn, setUser}) {
 		<div className="App">
 			<Header />
 			<div className="App-body">
-				<Sidebar dms={dms} onSelectDM={setSelectedDM} handleLogout={() => {}} />
-				{/* {selectedDM && <MessageHistory user={user} receiverId={selectedDM} />} */}
-				<SendMessage user={user} addReceiver={handleAddReceiver} />
-				{selectedDM && <MessageHistory user={user} receiverId={selectedDM} />}
+				<Sidebar
+					dms={dms}
+					onSelectDM={handleSelectDM}
+					handleLogout={() => {}}
+				/>
 
-				{/* <main className="home-main">
-					<p>Welcome to your Slack clone!</p>
-					{user && (
-						<>
-							<SendMessage user={user} />
-							<MessageHistory user={user} receiverId="5007" /> // Assuming
-							'5007' or replace dynamically as needed
-						</>
-					)} </main>*/}
+				<div className="main-content">
+					<SendMessage
+						user={user}
+						addReceiver={(receiver) => {
+							if (!dms.some((dm) => dm.id === receiver.id)) {
+								setDms([...dms, receiver])
+							}
+						}}
+					/>
+					{selectedDM && <MessageHistory user={user} receiverId={selectedDM} />}
+				</div>
 			</div>
 		</div>
 	)

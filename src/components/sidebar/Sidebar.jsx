@@ -73,10 +73,10 @@ function Sidebar({handleLogout, dms, onSelectDM}) {
 					<SidebarOption
 						Icon={FiberManualRecordIcon}
 						title={dm.email} // Assuming `dm` has a `name` property
-						id={dm.uid}
-						key={dm.uid}
+						id={dm.id}
+						key={dm.id}
 						sub="sidebarOption__sub sidebarOption__color"
-						onClick={() => onSelectDM(dm.uid)}
+						onClick={() => onSelectDM(dm.id)}
 					/>
 				))}
 			</div>
