@@ -10,7 +10,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import AddIcon from "@mui/icons-material/Add"
 
-function Sidebar({handleLogout, children}) {
+function Sidebar({handleLogout, dms, onSelectDM}) {
 	const [userDetails, setUserDetails] = useState({
 		displayName: "",
 	})
@@ -27,23 +27,10 @@ function Sidebar({handleLogout, children}) {
 		}
 	}, [])
 
-	// const logout = () => {
-	// 	navigate("/", {replace: true})
-	// 	console.log("Clearing user data and logging out...")
-	// 	setUser(null)
-	// 	setUserDetails(null)
-	// 	console.log("User data cleared")
-	// 	localStorage.clear()
-	// 	setIsLoggedIn(false)
-	// 	console.log("Navigating to login page...")
-	// }
-
 	const channels = [
 		{name: "General", guid: "general", type: "public"},
 		{name: "Tech Talk", guid: "tech_talk", type: "private"},
 	]
-
-	const dms = [{name: "Jane Smith", uid: "jane_smith", status: "online"}]
 
 	return (
 		<div className="sidebar">
@@ -85,19 +72,17 @@ function Sidebar({handleLogout, children}) {
 				{dms.map((dm) => (
 					<SidebarOption
 						Icon={FiberManualRecordIcon}
-						title={dm.name}
+						title={dm.email} // Assuming `dm` has a `name` property
 						id={dm.uid}
 						key={dm.uid}
 						sub="sidebarOption__sub sidebarOption__color"
-						user
-						online={dm.status === "online" ? "isOnline" : ""}
+						onClick={() => onSelectDM(dm.uid)}
 					/>
 				))}
 			</div>
 			<button className="sidebar__logout" onClick={handleLogout}>
 				Logout
 			</button>
-			<main>{children}</main>
 		</div>
 	)
 }

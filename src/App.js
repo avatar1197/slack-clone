@@ -29,9 +29,9 @@ function App() {
 		}
 	}, [user])
 
-	const handleSignOut = () => {
-		setUser(null) // This will trigger the useEffect to clear user from local storage and update isLoggedIn
-	}
+	// const handleSignOut = () => {
+	// 	setUser(null) // This will trigger the useEffect to clear user from local storage and update isLoggedIn
+	// }
 
 	return (
 		<Router>

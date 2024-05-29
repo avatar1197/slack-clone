@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import UserService from "../../services/UserService"
 
-function SendMessage({user}) {
+function SendMessage({user, addReceiver}) {
 	const [receiver, setReceiver] = useState("")
 	const [message, setMessage] = useState("")
 	const [users, setUsers] = useState([])
@@ -40,6 +40,14 @@ function SendMessage({user}) {
 		try {
 			await UserService.sendMsg(user, info)
 			setMessage("") // Clear message input after sending
+			const selectedReceiver = users.find((u) => u.id.toString() === receiver)
+			if (selectedReceiver) {
+				addReceiver({
+					id: selectedReceiver.id,
+					email: selectedReceiver.email,
+					status: "online",
+				})
+			}
 			alert("Message sent successfully!")
 		} catch (error) {
 			console.error("Failed to send message:", error)
