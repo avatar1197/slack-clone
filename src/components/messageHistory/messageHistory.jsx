@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios"
 import "./messageHistory.css" // You'll create this CSS file to style the messages
+import Avatar from "@mui/material/Avatar"
+import {deepOrange, deepPurple} from "@mui/material/colors"
 
 function MessageHistory({user, receiverId}) {
 	const [messages, setMessages] = useState([])
@@ -29,20 +31,37 @@ function MessageHistory({user, receiverId}) {
 		}
 	}, [user, receiverId])
 
+	//formatting the avatar
+	const getAvatarColor = (isSender) => {
+		return isSender ? deepPurple[500] : deepOrange[500]
+	}
+
 	return (
 		<div className="message-history">
 			{messages.map((msg) => (
 				<div
 					key={msg.id}
-					className={`message ${
+					className={`message-item ${
 						msg.sender.id === user.id ? "sent" : "received"
 					}`}
 				>
-					<div className="message-info">
-						<span>{msg.sender.id === user.id ? "You" : msg.sender.email}</span>
-						<span>{new Date(msg.created_at).toLocaleString()}</span>
+					<Avatar
+						className="avatar"
+						sx={{bgcolor: getAvatarColor(msg.sender.id === user.id)}}
+					>
+						{msg.sender.email[0].toUpperCase()}
+					</Avatar>
+					<div className="message-content">
+						<div className="message-info">
+							<span className="message-sender">
+								{msg.sender.id === user.id ? "You" : msg.sender.email}
+							</span>
+							<span className="message-timestamp">
+								{new Date(msg.created_at).toLocaleString()}
+							</span>
+						</div>
+						<p className="message-text">{msg.body}</p>
 					</div>
-					<p className="message-body">{msg.body}</p>
 				</div>
 			))}
 		</div>

@@ -16,9 +16,9 @@
 	color: black; /* Ensures the text color is black, adjust as necessary */
 }
 
-/* .main-content {
-	margin-left: 500px;
-} */
+.main-content {
+	width: 90%;
+}
 /* .home {
 	flex: 0.7;
 	flex-grow: 1;
