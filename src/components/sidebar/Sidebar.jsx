@@ -74,10 +74,20 @@ function Sidebar({handleLogout, onSelectDM}) {
 	}
 
 	//dummy channels
-	const channels = [
+	const [channels, setChannels] = useState([
 		{name: "General", guid: "general", type: "public"},
 		{name: "Tech Talk", guid: "tech_talk", type: "private"},
-	]
+	])
+
+	//channel states and modal settings
+	const [openAddChannel, setOpenAddChannel] = useState(false)
+	const handleOpenAddChannel = () => setOpenAddChannel(true)
+	const handleCloseAddChannel = () => setOpenAddChannel(false)
+
+	const handleChannelCreated = (newChannel) => {
+		setChannels((prevChannels) => [...prevChannels, newChannel])
+		handleCloseAddChannel()
+	}
 
 	// Styles for the modal content
 	const style = {
@@ -155,8 +165,25 @@ function Sidebar({handleLogout, onSelectDM}) {
 					Icon={AddIcon}
 					title="Add Channel"
 					sub="sidebarOption__sub"
-					addChannelOption
+					onClick={handleOpenAddChannel}
 				/>
+				<Modal
+					open={openAddChannel}
+					onClose={handleCloseAddChannel}
+					aria-labelledby="add-channel-modal-title"
+					aria-describedby="add-channel-modal-description"
+				>
+					<Box sx={style}>
+						<Typography
+							id="add-channel-modal-title"
+							variant="h6"
+							component="h2"
+						>
+							Add New Channel
+						</Typography>
+						<AddChannel user={user} onChannelCreated={handleChannelCreated} />
+					</Box>
+				</Modal>
 				<hr />
 				<SidebarOption Icon={ArrowDropDownIcon} title="Direct Messages" />
 				<hr />
