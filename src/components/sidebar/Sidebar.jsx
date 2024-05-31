@@ -102,6 +102,10 @@ function Sidebar({handleLogout, onSelectDM}) {
 		p: 4,
 	}
 
+	const dummyClick = () => {
+		console.log("Clicked!")
+	}
+
 	return (
 		<div className="sidebar">
 			<div className="sidebar__header">
@@ -146,11 +150,23 @@ function Sidebar({handleLogout, onSelectDM}) {
 				</Modal>
 			</div>
 			<div className="sidebar__options">
-				<SidebarOption Icon={InsertCommentIcon} title="Threads" />
-				<SidebarOption Icon={AlternateEmailIcon} title="Mentions & Reactions" />
-				<SidebarOption Icon={MoreVertIcon} title="More" />
+				<SidebarOption
+					Icon={InsertCommentIcon}
+					title="Threads"
+					onClick={dummyClick}
+				/>
+				<SidebarOption
+					Icon={AlternateEmailIcon}
+					title="Mentions & Reactions"
+					onClick={dummyClick}
+				/>
+				<SidebarOption Icon={MoreVertIcon} title="More" onClick={dummyClick} />
 				<hr />
-				<SidebarOption Icon={ArrowDropDownIcon} title="Channels" />
+				<SidebarOption
+					Icon={ArrowDropDownIcon}
+					title="Channels"
+					onClick={dummyClick}
+				/>
 				<hr />
 				{channels.map((channel) => (
 					<SidebarOption
@@ -185,7 +201,11 @@ function Sidebar({handleLogout, onSelectDM}) {
 					</Box>
 				</Modal>
 				<hr />
-				<SidebarOption Icon={ArrowDropDownIcon} title="Direct Messages" />
+				<SidebarOption
+					Icon={ArrowDropDownIcon}
+					title="Direct Messages"
+					onClick={dummyClick}
+				/>
 				<hr />
 				{dms.map((dm) => (
 					<SidebarOption
