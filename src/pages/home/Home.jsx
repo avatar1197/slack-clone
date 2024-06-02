@@ -5,6 +5,7 @@ import Sidebar from "../../components/sidebar/Sidebar"
 import Header from "../../components/header/Header"
 import SendMessage from "../../components/sendMessage/sendMessage"
 import MessageHistory from "../../components/messageHistory/messageHistory"
+import ChannelService from "../../services/ChannelService"
 import "../../App.css"
 import "./Home.css"
 
@@ -51,6 +52,19 @@ function Home({setIsLoggedIn, setUser}) {
 			})
 		}
 	}
+
+	const [channels, setChannels] = useState([]);
+	const [channelFlag, setChannelFlag] = useState(true);
+	
+	useEffect(() => {
+		async function getChannels(){
+			await ChannelService.getChannels(user, setChannels);
+		}
+		if(channelFlag){
+			setChannelFlag(false);
+			getChannels();
+		}
+	}, [user, channelFlag]);
 
 	return (
 		<div className="App">
