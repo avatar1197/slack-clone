@@ -40,7 +40,7 @@ const UserService = {
       };
       const response = await axios.get(`${API_URL}/users`, { headers });
       const users = response.data.data;
-      return users.filter (user => user.id>=4980)
+      return users.filter (user => user.id>=4980);
     } catch (error) {
       console.error("Failed to get users:", error.response ? error.response.data.errors : error);
       throw error;
@@ -57,9 +57,11 @@ const UserService = {
       };
       const response = await axios.post(`${API_URL}/messages`, info, { headers });
       if (response.data.data) {
-        return alert("Successfully sent a message!");
+        alert("Successfully sent a message!");
+        return response.data;
       } else {
-        return alert("Cannot send message!");
+        alert("Cannot send message!");
+        return null;
       }
     } catch (error) {
       console.error("Failed to send message:", error);
@@ -77,13 +79,12 @@ const UserService = {
         'Content-Type': 'application/json'
       };
       const response = await axios.post(`${API_URL}/channels`, channel, { headers });
-      console.log('Response:', response); // Log the response for debugging
-      if (response.status === 201) {
-        return response.data;
-      } else {
-        console.error('Failed to create channel, status:', response.status, 'data:', response.data);
-        throw new Error('Failed to create channel');
-      }
+      // if (response.status === 201) {
+      //   return response.data;
+      // } else {
+      //   console.error('Failed to create channel, status:', response.status, 'data:', response.data);
+      //   throw new Error('Failed to create channel');
+      // }
     } catch (error) {
       console.error("Failed to create channel:", error.response ? error.response.data : error.message);
       throw error;

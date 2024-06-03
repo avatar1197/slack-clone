@@ -6,6 +6,7 @@ function AddUserToChannel({ user, channelId }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -33,7 +34,7 @@ function AddUserToChannel({ user, channelId }) {
     try {
       const response = await UserService.addUserToChannel(user, selectedUserId, channelId);
       if (response.status === 200) {
-        alert('User added to channel successfully');
+        alert('User added to channel successfully4');
         setSelectedUserId('');
       } else {
         alert('Failed to add user to channel');

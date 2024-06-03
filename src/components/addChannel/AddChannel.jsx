@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../../services/UserService';
+import SendMessageToChannel from '../sendMessageToChannel/SendMessageToChannel';
 
 function AddChannel({ user, onChannelCreated, handleClose }) {
   const [channelName, setChannelName] = useState('');
@@ -7,6 +8,7 @@ function AddChannel({ user, onChannelCreated, handleClose }) {
   const [selectedUserIds, setSelectedUserIds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [message, setMessage] = useState("")
 
   // Fetch the list of users when the component mounts
   useEffect(() => {
@@ -41,15 +43,16 @@ function AddChannel({ user, onChannelCreated, handleClose }) {
 
     try {
       const response = await UserService.createChannel(user, channel);
-      console.log('Channel creation response:', response); // Log the response for debugging
-      if (response) {
-        onChannelCreated(response);
-        setChannelName('');
-        setSelectedUserIds([]);
-        handleClose();
-      } else {
-        alert('Failed to create channel');
-      }
+      console.log('Channel creation response:', response);
+      // if (response) {
+      //   alert('Channel successfully created.');
+      //   onChannelCreated(response);
+      //   setChannelName('');
+      //   setSelectedUserIds([]);
+      //   handleClose();
+      // } else {
+      //   alert('Failed to create channel.');
+      // }
     } catch (error) {
       console.error('Failed to create channel:', error);
       alert('Failed to create channel: ' + (error.response ? error.response.data : error.message));
@@ -60,6 +63,7 @@ function AddChannel({ user, onChannelCreated, handleClose }) {
   if (error) return <div>Error fetching users. Please try again later.</div>;
 
   return (
+    <div>
     <form onSubmit={handleSubmit}>
       <label>Channel Name:</label>
       <input
@@ -83,8 +87,19 @@ function AddChannel({ user, onChannelCreated, handleClose }) {
           </option>
         ))}
       </select>
+
+      <label>Message:</label>
+			<input
+				type="text"
+				className="input-style"
+				value={message}
+				onChange={(event) => setMessage(event.target.value)}
+				required
+			></input>
+      
       <button type="submit">Create Channel</button>
     </form>
+    </div>
   );
 }
 
