@@ -1,4 +1,4 @@
-// SidebarOption.js
+// SidebarOption.jsx
 import React from "react"
 import "./SidebarOption.css"
 

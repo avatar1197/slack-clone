@@ -39,7 +39,8 @@ const UserService = {
         uid: user.uid,
       };
       const response = await axios.get(`${API_URL}/users`, { headers });
-      return response.data.data;
+      const users = response.data.data;
+      return users.filter (user => user.id>=4980)
     } catch (error) {
       console.error("Failed to get users:", error.response ? error.response.data.errors : error);
       throw error;
