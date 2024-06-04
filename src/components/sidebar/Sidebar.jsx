@@ -197,7 +197,11 @@ function Sidebar({handleLogout, onSelectDM}) {
 						>
 							Add New Channel
 						</Typography>
-						<AddChannel user={user} onChannelCreated={handleChannelCreated} />
+						<AddChannel
+							user={user}
+							onChannelCreated={handleChannelCreated}
+							handleCloseAddChannel={handleCloseAddChannel}
+						/>
 					</Box>
 				</Modal>
 				<hr />
