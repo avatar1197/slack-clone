@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../../services/UserService';
-import SendMessageToChannel from '../sendMessageToChannel/SendMessageToChannel';
 
 function AddChannel({ user, onChannelCreated, handleClose }) {
   const [channelName, setChannelName] = useState('');
@@ -8,7 +7,7 @@ function AddChannel({ user, onChannelCreated, handleClose }) {
   const [selectedUserIds, setSelectedUserIds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState('');
 
   // Fetch the list of users when the component mounts
   useEffect(() => {
@@ -28,11 +27,20 @@ function AddChannel({ user, onChannelCreated, handleClose }) {
     fetchUsers();
   }, [user]);
 
+  // Handle checkbox change
+  const handleCheckboxChange = (userId) => {
+    setSelectedUserIds(prevSelectedUserIds =>
+      prevSelectedUserIds.includes(userId)
+        ? prevSelectedUserIds.filter(id => id !== userId)
+        : [...prevSelectedUserIds, userId]
+    );
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!channelName || selectedUserIds.length === 0) {
-      alert('Please fill out all fields');
+      setMessage('Please fill out all fields');
       return;
     }
 
@@ -44,18 +52,18 @@ function AddChannel({ user, onChannelCreated, handleClose }) {
     try {
       const response = await UserService.createChannel(user, channel);
       console.log('Channel creation response:', response);
-      // if (response) {
-      //   alert('Channel successfully created.');
-      //   onChannelCreated(response);
-      //   setChannelName('');
-      //   setSelectedUserIds([]);
-      //   handleClose();
-      // } else {
-      //   alert('Failed to create channel.');
-      // }
+      if (response) {
+        setMessage('Channel successfully created.');
+        onChannelCreated(response);
+        setChannelName('');
+        setSelectedUserIds([]);
+        handleClose();
+      } else {
+        setMessage('Failed to create channel.');
+      }
     } catch (error) {
       console.error('Failed to create channel:', error);
-      alert('Failed to create channel: ' + (error.response ? error.response.data : error.message));
+      setMessage('Failed to create channel: ' + (error.response ? error.response.data : error.message));
     }
   };
 
@@ -64,41 +72,36 @@ function AddChannel({ user, onChannelCreated, handleClose }) {
 
   return (
     <div>
-    <form onSubmit={handleSubmit}>
-      <label>Channel Name:</label>
-      <input
-        type="text"
-        className="input-style"
-        value={channelName}
-        onChange={(e) => setChannelName(e.target.value)}
-        required
-      />
-      <label>Select Users:</label>
-      <select
-        multiple
-        className="input-style"
-        value={selectedUserIds}
-        onChange={(e) => setSelectedUserIds(Array.from(e.target.selectedOptions, option => parseInt(option.value)))}
-        required
-      >
-        {users.map(user => (
-          <option key={user.id} value={user.id}>
-            {user.email} (ID: {user.id})
-          </option>
-        ))}
-      </select>
-
-      <label>Message:</label>
-			<input
-				type="text"
-				className="input-style"
-				value={message}
-				onChange={(event) => setMessage(event.target.value)}
-				required
-			></input>
-      
-      <button type="submit">Create Channel</button>
-    </form>
+      {message && <div className="message">{message}</div>}
+      <form onSubmit={handleSubmit}>
+        <label>Channel Name:</label>
+        <input
+          type="text"
+          className="input-style"
+          value={channelName}
+          onChange={(e) => setChannelName(e.target.value)}
+          required
+        />
+        <label>Select Users:</label>
+        <div className="checkbox-group" style={{ height: '200px', overflowY: 'scroll', border: '1px solid #ccc', padding: '10px', marginBottom: '20px' }}>
+          {users.map(user => (
+            <div key={user.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+              <input
+                type="checkbox"
+                id={`user-${user.id}`}
+                value={user.id}
+                checked={selectedUserIds.includes(user.id)}
+                onChange={() => handleCheckboxChange(user.id)}
+                style={{ marginRight: '10px' }} // Space between checkbox and text
+              />
+              <label htmlFor={`user-${user.id}`}>
+                {user.email} (ID: {user.id})
+              </label>
+            </div>
+          ))}
+        </div>
+        <button type="submit" style={{ marginTop: '20px' }}>Create Channel</button>
+      </form>
     </div>
   );
 }
