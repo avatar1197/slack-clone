@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import UserService from '../../services/UserService';
+import axios from 'axios';
 
 function SendMessageToChannel({ user, channelId, onMessageSent }) {
   const [message, setMessage] = useState('');
@@ -18,7 +18,13 @@ function SendMessageToChannel({ user, channelId, onMessageSent }) {
     };
 
     try {
-      await UserService.sendMsg(user, info);
+      const headers = {
+        'access-token': user.accessToken,
+        expiry: user.expiry,
+        client: user.client,
+        uid: user.uid,
+      };
+      await axios.post('http://206.189.91.54/api/v1/messages', info, { headers });
       setMessage(''); // Clear message input after sending
       alert('Message sent successfully!');
       if (onMessageSent) {
