@@ -73,21 +73,29 @@ function Sidebar({handleLogout, onSelectDM}) {
 		})
 	}
 
-	//dummy channels
-	const [channels, setChannels] = useState([
-		{name: "General", guid: "general", type: "public"},
-		{name: "Tech Talk", guid: "tech_talk", type: "private"},
-	])
+	// Initial load of channels from local storage or setting default channels
+	const [channels, setChannels] = useState(
+		() =>
+			JSON.parse(localStorage.getItem("channels")) || [
+				{name: "General", id: "general", type: "public"},
+				{name: "Tech Talk", id: "tech_talk", type: "private"},
+			]
+	)
+
+	// useEffect to sync channels with local storage whenever they change
+	useEffect(() => {
+		console.log("Channels updated: ", channels)
+		localStorage.setItem("channels", JSON.stringify(channels))
+	}, [channels])
+
+	const handleChannelCreated = (newChannel) => {
+		setChannels((prevChannels) => [...prevChannels, newChannel])
+	}
 
 	//channel states and modal settings
 	const [openAddChannel, setOpenAddChannel] = useState(false)
 	const handleOpenAddChannel = () => setOpenAddChannel(true)
 	const handleCloseAddChannel = () => setOpenAddChannel(false)
-
-	const handleChannelCreated = (newChannel) => {
-		setChannels((prevChannels) => [...prevChannels, newChannel])
-		handleCloseAddChannel()
-	}
 
 	// Styles for the modal content
 	const style = {
@@ -170,11 +178,12 @@ function Sidebar({handleLogout, onSelectDM}) {
 				<hr />
 				{channels.map((channel) => (
 					<SidebarOption
-						Icon={channel.type === "private" ? LockOutlinedIcon : null}
+						Icon={LockOutlinedIcon}
 						title={channel.name}
-						id={channel.guid}
-						key={channel.guid}
+						id={channel.id}
+						key={channel.id}
 						sub="sidebarOption__sub"
+						onClick={() => console.log("Channel selected:", channel.name)}
 					/>
 				))}
 				<SidebarOption

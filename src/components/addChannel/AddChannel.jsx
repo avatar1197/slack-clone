@@ -51,26 +51,43 @@ function AddChannel({user, onChannelCreated, handleCloseAddChannel}) {
 
 		try {
 			const response = await UserService.createChannel(user, channel)
-			// console.log("Channel creation response:", response)
-			setMessage("Channel successfully created.")
-			alert("Channel successfully created.")
-			handleCloseAddChannel()
+			console.log("API response", response)
 
-			// if (response) {
-			// 	setMessage("Channel successfully created.")
-			// 	onChannelCreated(response)
-			// 	setChannelName("")
-			// 	setSelectedUserIds([])
-			// 	handleClose()
-			// } else {
-			// 	setMessage("Failed to create channel.")
-			// }
+			if (response && response.data && response.data.id) {
+				const channelId = response.data.id // Extracting the ID from api response
+				// Extract channel details
+				const {id, owner_id, name, created_at} = response.data
+
+				// Create an object to store in local storage
+				const channelDetails = {
+					id,
+					owner_id,
+					name,
+					created_at,
+				}
+				// Fetch existing channels from local storage
+				const existingChannels =
+					JSON.parse(localStorage.getItem("channels")) || []
+				// Append the new channel to the existing array of channels
+				const updatedChannels = [...existingChannels, channelDetails]
+				// Save the updated array of channels back to local storage
+				localStorage.setItem("channels", JSON.stringify(updatedChannels))
+				localStorage.setItem("ChannelID", channelId) // Storing the Channel ID in localStorage
+				setMessage("Channel successfully created.")
+				alert(`Channel "${name}" successfully created. ID: ${id}`)
+				handleCloseAddChannel()
+			} else {
+				setMessage("Failed to create channel: Invalid server response")
+			}
 		} catch (error) {
-			console.error("Failed to create channel:", error)
-			setMessage(
-				"Failed to create channel: " +
-					(error.response ? error.response.data : error.message)
-			)
+			console.error("Request failed:", error)
+			const errorMessage =
+				error.response && error.response.data && error.response.data.message
+					? error.response.data.message
+					: error.message
+					? error.message
+					: "Unknown error"
+			setMessage("Failed to create channel: " + errorMessage)
 		}
 	}
 
