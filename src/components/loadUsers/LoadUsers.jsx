@@ -19,7 +19,7 @@ function LoadUsers({user, selectedUserId, onSelectUser}) {
 				setLoading(false)
 			}
 		}
-		fetchUsers()
+		if (loading) {fetchUsers()}
 	}, [user])
 
 	if (loading) return <div>Loading users...</div>

@@ -18,7 +18,7 @@ import SendMessageToChannel from "../sendMessageToChannel/SendMessageToChannel"
 // import SendMessagetest from "../sendMessage/sendMessagetest"
 // import LoadUsers from "../loadUsers/LoadUsers"
 
-function Sidebar({handleLogout, onSelectDM}) {
+function Sidebar({handleLogout, onSelectDM, onSelectChannel}) {
 	//logged in user data
 	const user = JSON.parse(localStorage.getItem("user"))
 
@@ -183,7 +183,7 @@ function Sidebar({handleLogout, onSelectDM}) {
 						id={channel.id}
 						key={channel.id}
 						sub="sidebarOption__sub"
-						onClick={() => console.log("Channel selected:", channel.name)}
+						onClick={() => onSelectChannel(channel.id)}
 					/>
 				))}
 				<SidebarOption

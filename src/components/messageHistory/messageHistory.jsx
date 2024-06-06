@@ -4,7 +4,7 @@ import "./messageHistory.css" // You'll create this CSS file to style the messag
 import Avatar from "@mui/material/Avatar"
 import {deepOrange, deepPurple} from "@mui/material/colors"
 
-function MessageHistory({user, receiverId}) {
+function MessageHistory({user, receiverId, type}) {
 	const [messages, setMessages] = useState([])
 
 	useEffect(() => {
@@ -17,7 +17,7 @@ function MessageHistory({user, receiverId}) {
 					uid: user.uid,
 				}
 				const response = await axios.get(
-					`http://206.189.91.54/api/v1/messages?receiver_id=${receiverId}&receiver_class=User`,
+					`http://206.189.91.54/api/v1/messages?receiver_id=${receiverId}&receiver_class=${type}`,
 					{headers}
 				)
 				setMessages(response.data.data)

@@ -9,6 +9,7 @@ import ChannelMessageHistory from "../../components/channelMessageHistory/Channe
 import ChannelService from "../../services/ChannelService"
 import "../../App.css"
 import "./Home.css"
+import SendMessageToChannel from "../../components/sendMessageToChannel/SendMessageToChannel"
 
 function Home({setIsLoggedIn, setUser}) {
 	const navigate = useNavigate()
@@ -28,6 +29,7 @@ function Home({setIsLoggedIn, setUser}) {
 	const [selectedChannel, setSelectedChannel] = useState(null); // Track the currently selected channel ***
 	const [loadingChannels, setLoadingChannels] = useState(true); // State for loading channels ***
 	const [channelError, setChannelError] = useState(null); // State for channel loading error ***
+	const [message, setMessage] = useState('')
 
 	// Load DMs from local storage when component mounts
 	useEffect(() => {
@@ -62,7 +64,7 @@ function Home({setIsLoggedIn, setUser}) {
 		const fetchChannels = async () => { 
 		  try { 
 			setLoadingChannels(true); // Start loading ***
-			await ChannelService.getChannels(user, setChannels); 
+			// await ChannelService.getChannels(user, setChannels); 
 			setLoadingChannels(false); // End loading ***
 		  } catch (error) { 
 			setLoadingChannels(false); // End loading ***
@@ -140,7 +142,11 @@ function Home({setIsLoggedIn, setUser}) {
 							}
 						}}
 					/> */}
-					{selectedDM && <MessageHistory user={user} receiverId={selectedDM} />}
+					{selectedDM && <MessageHistory type="User" user={user} receiverId={selectedDM} />}
+					{selectedChannel && <MessageHistory type="Channel" user={user} receiverId={selectedChannel} />}
+				
+					{selectedChannel && <SendMessageToChannel user={user} channelId={selectedChannel}/>}
+
 				</div>
 			</div>
 		</div>
