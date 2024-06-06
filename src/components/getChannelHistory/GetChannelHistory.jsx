@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange, deepPurple } from '@mui/material/colors';
-import './getChannelHistory.css'; // Create and style this CSS file
+import './GetChannelHistory.css'; // Create and style this CSS file
 
 function GetChannelHistory({ user, channelId }) {
   const [channelDetails, setChannelDetails] = useState(null);

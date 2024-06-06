@@ -5,6 +5,7 @@ import Sidebar from "../../components/sidebar/Sidebar"
 import Header from "../../components/header/Header"
 import SendMessage from "../../components/sendMessage/sendMessage"
 import MessageHistory from "../../components/messageHistory/messageHistory"
+import ChannelMessageHistory from "../../components/channelMessageHistory/ChannelMessageHistory";
 import ChannelService from "../../services/ChannelService"
 import "../../App.css"
 import "./Home.css"
@@ -23,6 +24,10 @@ function Home({setIsLoggedIn, setUser}) {
 
 	const [selectedDM, setSelectedDM] = useState(null)
 	const [dms, setDms] = useState([]) // contains list of receivers from the sendmessage compoent
+	const [channels, setChannels] = useState([]); 
+	const [selectedChannel, setSelectedChannel] = useState(null); // Track the currently selected channel ***
+	const [loadingChannels, setLoadingChannels] = useState(true); // State for loading channels ***
+	const [channelError, setChannelError] = useState(null); // State for channel loading error ***
 
 	// Load DMs from local storage when component mounts
 	useEffect(() => {
@@ -42,29 +47,77 @@ function Home({setIsLoggedIn, setUser}) {
 		setSelectedDM(id)
 	}
 
-	const handleAddReceiver = (newReceiver) => {
-		// Add new receiver if not already in list
-		if (!dms.some((dm) => dm.id === newReceiver.id)) {
-			setDms((prevDms) => {
-				const updatedDms = [...prevDms, newReceiver]
-				localStorage.setItem("dms", JSON.stringify(updatedDms)) // Update local storage
-				return updatedDms
-			})
-		}
-	}
+	// const handleAddReceiver = (newReceiver) => {
+	// 	// Add new receiver if not already in list
+	// 	if (!dms.some((dm) => dm.id === newReceiver.id)) {
+	// 		setDms((prevDms) => {
+	// 			const updatedDms = [...prevDms, newReceiver]
+	// 			localStorage.setItem("dms", JSON.stringify(updatedDms)) // Update local storage
+	// 			return updatedDms
+	// 		})
+	// 	}
+	// }
 
-	const [channels, setChannels] = useState([]);
-	const [channelFlag, setChannelFlag] = useState(true);
+	useEffect(() => { 
+		const fetchChannels = async () => { 
+		  try { 
+			setLoadingChannels(true); // Start loading ***
+			await ChannelService.getChannels(user, setChannels); 
+			setLoadingChannels(false); // End loading ***
+		  } catch (error) { 
+			setLoadingChannels(false); // End loading ***
+			setChannelError(error); // Set error state ***
+		  } 
+		};
 	
-	useEffect(() => {
-		async function getChannels(){
-			await ChannelService.getChannels(user, setChannels);
+		fetchChannels(); 
+	  }, [user]);
+	
+	  const handleSelectChannel = (channelId) => { 
+		console.log('Channel selected:', channelId); // debug 
+		setSelectedChannel(channelId); // Update selected channel ***
+	  };
+	
+	  const renderMainContent = () => { 
+		if (loadingChannels) { // Check if channels are loading ***
+		  return <div>Loading channels...</div>; 
 		}
-		if(channelFlag){
-			setChannelFlag(false);
-			getChannels();
+	
+		if (channelError) { // Check if there was an error loading channels ***
+		  return <div>Error loading channels: {channelError.message}</div>; 
 		}
-	}, [user, channelFlag]);
+	
+		if (selectedChannel) { // Check if a channel is selected ***
+		  return ( 
+			<> 
+			  <ChannelMessageHistory user={user} channelId={selectedChannel} /> {/* Display message history for the selected channel *** */}
+			  <SendMessage 
+				user={user} 
+				addReceiver={(receiver) => { 
+				  if (!dms.some((dm) => dm.id === receiver.id)) { 
+					setDms([...dms, receiver]); 
+				  } 
+				}} 
+			  /> 
+			</> 
+		  ); 
+		}
+	
+		return <div>Select a channel to view messages.</div>; // Default message when no channel is selected ***
+	  };
+
+	// const [channels, setChannels] = useState([]);
+	// const [channelFlag, setChannelFlag] = useState(true);
+	
+	// useEffect(() => {
+	// 	async function getChannels(){
+	// 		await ChannelService.getChannels(user, setChannels);
+	// 	}
+	// 	if(channelFlag){
+	// 		setChannelFlag(false);
+	// 		getChannels();
+	// 	}
+	// }, [user, channelFlag]);
 
 	return (
 		<div className="App">
@@ -72,19 +125,21 @@ function Home({setIsLoggedIn, setUser}) {
 			<div className="App-body">
 				<Sidebar
 					dms={dms}
+					channels={channels}
 					onSelectDM={handleSelectDM}
+					onSelectChannel={handleSelectChannel}
 					handleLogout={handleLogout}
 				/>
 
 				<div className="main-content">
-					<SendMessage
+					{/* <SendMessage
 						user={user}
 						addReceiver={(receiver) => {
 							if (!dms.some((dm) => dm.id === receiver.id)) {
 								setDms([...dms, receiver])
 							}
 						}}
-					/>
+					/> */}
 					{selectedDM && <MessageHistory user={user} receiverId={selectedDM} />}
 				</div>
 			</div>

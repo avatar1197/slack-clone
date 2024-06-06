@@ -1,62 +1,86 @@
+/* GetChannelHistory.css */
 .channel-history {
     display: flex;
     flex-direction: column;
     max-height: 70%;
     overflow-y: auto;
     padding: 20px;
-}
-
-.avatar {
+    background-color: #f8f8f8; /* Light background color for the message area */
+  }
+  
+  .channel-history h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333; /* Darker color for the channel name */
+  }
+  
+  .message-history {
+    display: flex;
+    flex-direction: column;
+    max-height: 70%;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  
+  .avatar {
     margin-right: 10px;
     margin-top: 2px;
-}
-
-.message-item {
+  }
+  
+  .message-item {
     display: flex;
     align-items: flex-start;
     width: 100%;
     margin-bottom: 10px;
-}
-
-.sent {
+  }
+  
+  .sent {
     justify-content: flex-end;
-}
-
-.received {
+  }
+  
+  .received {
     justify-content: flex-start;
-}
-
-.message-content {
+  }
+  
+  .message-content {
     max-width: 50%;
     padding: 8px;
     border-radius: 15px;
     background-color: #c9c5c5; /* Light grey for received messages */
     margin-left: 10px;
     position: relative;
-}
-
-.received .message-content {
+  }
+  
+  .received .message-content {
     background-color: #c9c5c5; /* Light grey for received messages */
     color: rgba(41, 39, 39, 0.72);
     margin-left: 0;
     margin-right: 10px;
-}
-
-.sent .message-content {
+  }
+  
+  .sent .message-content {
     background-color: #4c9df3; /* Blue for sent messages */
     color: white;
     margin-left: 0;
     margin-right: 10px;
-}
-
-.message-info {
+  }
+  
+  .message-info {
     display: flex;
     justify-content: space-between;
     font-size: 0.75rem;
     margin-bottom: 5px;
-}
-
-.message-text {
+  }
+  
+  .message-sender {
+    font-weight: bold;
+  }
+  
+  .message-timestamp {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .message-text {
     word-wrap: break-word;
     color: rgba(29, 28, 28, 0.724);
-}
+  }  
