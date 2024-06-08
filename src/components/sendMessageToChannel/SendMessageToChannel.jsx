@@ -46,7 +46,7 @@ function SendMessageToChannel({ user, channelId, onMessageSent }) {
         onChange={(event) => setMessage(event.target.value)}
         required
       />
-      <button type="submit">Send Message</button>
+      <button type="submit" className="button-style">Send Message</button>
     </form>
   );
 }

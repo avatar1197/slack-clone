@@ -81,6 +81,7 @@ body {
 }
 
 #add-channel-form > .form-btn {
+	margin: 10px 20px;
 	border: none;
 	padding: 10px;
 	color: gray;
@@ -98,3 +99,13 @@ body {
 #add-channel-form > .form-btn:focus {
 	outline: none;
 }
+
+.input-style {
+	margin: 10px 20px; /* Adjust the values as needed */
+	padding: 10px;
+	width: calc(100% - 60px); /* To make sure it fits within the form, adjust according to your layout */
+	box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
