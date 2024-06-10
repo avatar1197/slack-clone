@@ -1,7 +1,7 @@
 .message-history {
 	display: flex;
 	flex-direction: column;
-	max-height: 70%;
+	max-height: 50%;
 	overflow-y: auto;
 	padding: 20px;
 }
