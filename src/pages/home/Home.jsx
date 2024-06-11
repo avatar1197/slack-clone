@@ -5,7 +5,7 @@ import Sidebar from "../../components/sidebar/Sidebar"
 import Header from "../../components/header/Header"
 import SendMessage from "../../components/sendMessage/sendMessage"
 import MessageHistory from "../../components/messageHistory/messageHistory"
-import ChannelMessageHistory from "../../components/channelMessageHistory/ChannelMessageHistory";
+import ChannelMessageHistory from "../../components/channelMessageHistory/ChannelMessageHistory"
 import ChannelService from "../../services/ChannelService"
 import "../../App.css"
 import "./Home.css"
@@ -25,11 +25,11 @@ function Home({setIsLoggedIn, setUser}) {
 
 	const [selectedDM, setSelectedDM] = useState(null)
 	const [dms, setDms] = useState([]) // contains list of receivers from the sendmessage compoent
-	const [channels, setChannels] = useState([]); 
-	const [selectedChannel, setSelectedChannel] = useState(null); // Track the currently selected channel ***
-	const [loadingChannels, setLoadingChannels] = useState(true); // State for loading channels ***
-	const [channelError, setChannelError] = useState(null); // State for channel loading error ***
-	const [message, setMessage] = useState('')
+	const [channels, setChannels] = useState([])
+	const [selectedChannel, setSelectedChannel] = useState(null) // Track the currently selected channel ***
+	const [loadingChannels, setLoadingChannels] = useState(true) // State for loading channels ***
+	const [channelError, setChannelError] = useState(null) // State for channel loading error ***
+	const [message, setMessage] = useState("")
 
 	// Load DMs from local storage when component mounts
 	useEffect(() => {
@@ -60,57 +60,61 @@ function Home({setIsLoggedIn, setUser}) {
 	// 	}
 	// }
 
-	useEffect(() => { 
-		const fetchChannels = async () => { 
-		  try { 
-			setLoadingChannels(true); // Start loading ***
-			// await ChannelService.getChannels(user, setChannels); 
-			setLoadingChannels(false); // End loading ***
-		  } catch (error) { 
-			setLoadingChannels(false); // End loading ***
-			setChannelError(error); // Set error state ***
-		  } 
-		};
-	
-		fetchChannels(); 
-	  }, [user]);
-	
-	  const handleSelectChannel = (channelId) => { 
-		console.log('Channel selected:', channelId); // debug 
-		setSelectedChannel(channelId); // Update selected channel ***
-	  };
-	
-	  const renderMainContent = () => { 
-		if (loadingChannels) { // Check if channels are loading ***
-		  return <div>Loading channels...</div>; 
+	useEffect(() => {
+		const fetchChannels = async () => {
+			try {
+				setLoadingChannels(true) // Start loading ***
+				// await ChannelService.getChannels(user, setChannels);
+				setLoadingChannels(false) // End loading ***
+			} catch (error) {
+				setLoadingChannels(false) // End loading ***
+				setChannelError(error) // Set error state ***
+			}
 		}
-	
-		if (channelError) { // Check if there was an error loading channels ***
-		  return <div>Error loading channels: {channelError.message}</div>; 
+
+		fetchChannels()
+	}, [user])
+
+	const handleSelectChannel = (channelId) => {
+		console.log("Channel selected:", channelId) // debug
+		setSelectedChannel(channelId) // Update selected channel ***
+	}
+
+	const renderMainContent = () => {
+		if (loadingChannels) {
+			// Check if channels are loading ***
+			return <div>Loading channels...</div>
 		}
-	
-		if (selectedChannel) { // Check if a channel is selected ***
-		  return ( 
-			<> 
-			  <ChannelMessageHistory user={user} channelId={selectedChannel} /> {/* Display message history for the selected channel *** */}
-			  <SendMessage 
-				user={user} 
-				addReceiver={(receiver) => { 
-				  if (!dms.some((dm) => dm.id === receiver.id)) { 
-					setDms([...dms, receiver]); 
-				  } 
-				}} 
-			  /> 
-			</> 
-		  ); 
+
+		if (channelError) {
+			// Check if there was an error loading channels ***
+			return <div>Error loading channels: {channelError.message}</div>
 		}
-	
-		return <div>Select a channel to view messages.</div>; // Default message when no channel is selected ***
-	  };
+
+		if (selectedChannel) {
+			// Check if a channel is selected ***
+			return (
+				<>
+					<ChannelMessageHistory user={user} channelId={selectedChannel} />{" "}
+					{/* Display message history for the selected channel *** */}
+					<SendMessage
+						user={user}
+						addReceiver={(receiver) => {
+							if (!dms.some((dm) => dm.id === receiver.id)) {
+								setDms([...dms, receiver])
+							}
+						}}
+					/>
+				</>
+			)
+		}
+
+		return <div>Select a channel to view messages.</div> // Default message when no channel is selected ***
+	}
 
 	// const [channels, setChannels] = useState([]);
 	// const [channelFlag, setChannelFlag] = useState(true);
-	
+
 	// useEffect(() => {
 	// 	async function getChannels(){
 	// 		await ChannelService.getChannels(user, setChannels);
@@ -142,11 +146,20 @@ function Home({setIsLoggedIn, setUser}) {
 							}
 						}}
 					/> */}
-					{selectedDM && <MessageHistory type="User" user={user} receiverId={selectedDM} />}
-					{selectedChannel && <MessageHistory type="Channel" user={user} receiverId={selectedChannel} />}
-				
-					{selectedChannel && <SendMessageToChannel user={user} channelId={selectedChannel}/>}
+					{selectedDM && (
+						<MessageHistory type="User" user={user} receiverId={selectedDM} />
+					)}
+					{selectedChannel && (
+						<MessageHistory
+							type="Channel"
+							user={user}
+							receiverId={selectedChannel}
+						/>
+					)}
 
+					{selectedChannel && (
+						<SendMessageToChannel user={user} channelId={selectedChannel} />
+					)}
 				</div>
 			</div>
 		</div>

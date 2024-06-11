@@ -32,6 +32,35 @@ const UserService = {
 			return null // Return null to indicate failure
 		}
 	},
+	signUp: async function (info) {
+		if (info.password !== info.password_confirmation) {
+			return alert("Passwords don't match!")
+			alert("Passwords don't match!")
+			return Promise.reject("Passwords don't match") // Reject the promise here
+		}
+
+		try {
+			const response = await axios.post(`${API_URL}/auth/`, info)
+			const {data} = response
+			if (data.data) {
+				return alert("Account creation successful!")
+			}
+			// const {data} = response
+			return response.data // Return the whole response data
+			// if (data.data) {
+			// 	return alert("Account creation successful!")
+			// }
+		} catch (error) {
+			if (error.response.data.errors) {
+				return alert("Unable to create this account.")
+			}
+			alert(
+				"Unable to create this account: " +
+					(error.response?.data?.errors?.join(", ") || "Unknown Error")
+			)
+			return Promise.reject(error) // Reject the promise on error
+		}
+	},
 
 	getUsers: async function (user) {
 		try {
